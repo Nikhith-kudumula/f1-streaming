@@ -1,0 +1,35 @@
+{{- if .Values.jobs.alerts.enabled }}
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: f1-race-alerts
+  namespace: {{ .Release.Namespace }}
+spec:
+  image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+  flinkVersion: v{{ .Values.flink.version | replace "." "_" }}
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "1"
+    state.checkpoints.dir: file:///flink-data/checkpoints
+  serviceAccount: flink
+  jobManager:
+    resource:
+      memory: "512m"
+      cpu: 0.5
+  taskManager:
+    replicas: {{ .Values.jobs.alerts.taskManager.replicas }}
+    resource:
+      memory: {{ .Values.jobs.alerts.taskManager.resource.memory | quote }}
+      cpu: {{ .Values.jobs.alerts.taskManager.resource.cpu }}
+  job:
+    jarURI: local:///opt/flink/usrlib/flink-jobs.jar
+    entryClass: {{ .Values.jobs.alerts.mainClass }}
+    parallelism: {{ .Values.jobs.alerts.parallelism }}
+    upgradeMode: stateless
+  podTemplate:
+    spec:
+      containers:
+        - name: flink-main-container
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: {{ .Values.kafka.bootstrapServers | quote }}
+{{- end }}

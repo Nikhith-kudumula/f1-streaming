@@ -1,0 +1,13 @@
+# Apache Flink Kubernetes Operator Helm values
+# Helm repo: https://downloads.apache.org/flink/flink-kubernetes-operator-1.9.0/
+# Chart: flink-operator/flink-kubernetes-operator
+
+webhook:
+  create: true
+
+defaultConfiguration:
+  create: true
+  append: true
+  flink-conf.yaml: |+
+    kubernetes.operator.metrics.reporter.slf4j.factory.class: org.apache.flink.metrics.slf4j.Slf4jReporterFactory
+    kubernetes.operator.reconcile.interval: 15s

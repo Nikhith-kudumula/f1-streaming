@@ -1,0 +1,100 @@
+# Raw input topics
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: f1-positions
+  namespace: f1-streaming
+  labels:
+    strimzi.io/cluster: f1-kafka
+spec:
+  partitions: 3
+  replicas: 1
+  topicName: f1.positions
+  config:
+    retention.ms: "3600000"
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: f1-laps
+  namespace: f1-streaming
+  labels:
+    strimzi.io/cluster: f1-kafka
+spec:
+  partitions: 3
+  replicas: 1
+  topicName: f1.laps
+  config:
+    retention.ms: "3600000"
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: f1-pit-stops
+  namespace: f1-streaming
+  labels:
+    strimzi.io/cluster: f1-kafka
+spec:
+  partitions: 3
+  replicas: 1
+  topicName: f1.pit_stops
+  config:
+    retention.ms: "3600000"
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: f1-race-control
+  namespace: f1-streaming
+  labels:
+    strimzi.io/cluster: f1-kafka
+spec:
+  partitions: 1
+  replicas: 1
+  topicName: f1.race_control
+  config:
+    retention.ms: "3600000"
+# Processed output topics
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: f1-leaderboard
+  namespace: f1-streaming
+  labels:
+    strimzi.io/cluster: f1-kafka
+spec:
+  partitions: 1
+  replicas: 1
+  topicName: f1.leaderboard
+  config:
+    retention.ms: "3600000"
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: f1-laps-enriched
+  namespace: f1-streaming
+  labels:
+    strimzi.io/cluster: f1-kafka
+spec:
+  partitions: 3
+  replicas: 1
+  topicName: f1.laps_enriched
+  config:
+    retention.ms: "3600000"
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: f1-alerts
+  namespace: f1-streaming
+  labels:
+    strimzi.io/cluster: f1-kafka
+spec:
+  partitions: 1
+  replicas: 1
+  topicName: f1.alerts
+  config:
+    retention.ms: "3600000"

@@ -1,0 +1,7 @@
+# Strimzi Kafka Operator Helm values
+# Helm repo: https://strimzi.io/charts/
+# Chart: strimzi/strimzi-kafka-operator
+
+watchAnyNamespace: false
+watchNamespaces:
+  - f1-streaming

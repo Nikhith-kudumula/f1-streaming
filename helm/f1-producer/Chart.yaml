@@ -1,0 +1,6 @@
+apiVersion: v2
+name: f1-producer
+description: F1 Streaming — OpenF1 replay producer
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

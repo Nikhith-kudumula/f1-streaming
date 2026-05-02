@@ -1,0 +1,6 @@
+apiVersion: v2
+name: f1-flink-jobs
+description: F1 Streaming — Flink job deployments (leaderboard, enrichment, alerts)
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

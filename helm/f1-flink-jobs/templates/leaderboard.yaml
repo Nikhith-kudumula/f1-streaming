@@ -1,0 +1,37 @@
+{{- if .Values.jobs.leaderboard.enabled }}
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: f1-leaderboard
+  namespace: {{ .Release.Namespace }}
+spec:
+  image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+  flinkVersion: v{{ .Values.flink.version | replace "." "_" }}
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "1"
+    state.checkpoints.dir: file:///flink-data/checkpoints
+  serviceAccount: flink
+  jobManager:
+    resource:
+      memory: "1024m"
+      cpu: 1
+  taskManager:
+    replicas: {{ .Values.jobs.leaderboard.taskManager.replicas }}
+    resource:
+      memory: {{ .Values.jobs.leaderboard.taskManager.resource.memory | quote }}
+      cpu: {{ .Values.jobs.leaderboard.taskManager.resource.cpu }}
+  job:
+    jarURI: local:///opt/flink/usrlib/flink-jobs.jar
+    entryClass: {{ .Values.jobs.leaderboard.mainClass }}
+    parallelism: {{ .Values.jobs.leaderboard.parallelism }}
+    upgradeMode: stateless
+    args:
+      - "--kafka.bootstrap.servers={{ .Values.kafka.bootstrapServers }}"
+  podTemplate:
+    spec:
+      containers:
+        - name: flink-main-container
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: {{ .Values.kafka.bootstrapServers | quote }}
+{{- end }}
